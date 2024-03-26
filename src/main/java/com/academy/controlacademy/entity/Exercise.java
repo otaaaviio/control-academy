@@ -10,6 +10,9 @@ public class Exercise {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column(nullable = false, unique = true)
+  private String name;
+
   @Column(nullable = false)
   private Integer num_series;
 
@@ -35,10 +38,10 @@ public class Exercise {
   @ManyToMany(mappedBy = "exercises")
   private Set<Training> trainings;
 
-
   public Exercise() {}
 
   public Exercise(
+      String name,
       Integer num_series,
       Integer min_reps,
       Integer max_reps,
@@ -46,6 +49,7 @@ public class Exercise {
       Integer rest_time,
       Set<Muscle> muscles,
       Set<Training> trainings) {
+    this.name = name;
     this.num_series = num_series;
     this.min_reps = min_reps;
     this.max_reps = max_reps;
@@ -57,6 +61,14 @@ public class Exercise {
 
   public Long getId() {
     return id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   public Integer getNum_series() {
@@ -107,11 +119,11 @@ public class Exercise {
     this.muscles = muscles;
   }
 
-    public Set<Training> getTrainings() {
-        return trainings;
-    }
+  public Set<Training> getTrainings() {
+    return trainings;
+  }
 
-    public void setTrainings(Set<Training> trainings) {
-        this.trainings = trainings;
-    }
+  public void setTrainings(Set<Training> trainings) {
+    this.trainings = trainings;
+  }
 }
