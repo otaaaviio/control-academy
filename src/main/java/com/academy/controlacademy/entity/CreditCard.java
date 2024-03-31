@@ -18,15 +18,19 @@ public class CreditCard {
     @Column(nullable = false, length = 3)
     private String cvv;
 
-    @Temporal(TemporalType.DATE)
-    private Date expiration_date;
+    @Column(nullable = false, length = 7)
+    private String expiration_date;
+
+    @Column(nullable = false)
+    private String name;
 
     public CreditCard() {}
 
-    public CreditCard(String number, String cvv, Date expiration_date) {
+    public CreditCard(String number, String cvv, String expiration_date, String name) {
         this.number = number;
         this.cvv = cvv;
         this.expiration_date = expiration_date;
+        this.name = name;
     }
 
     public Long getId() {
@@ -49,11 +53,19 @@ public class CreditCard {
         this.cvv = cvv;
     }
 
-    public Date getExpiration_date() {
+    public String getExpiration_date() {
         return expiration_date;
     }
 
-    public void setExpiration_date(Date expiration_date) {
+    public void setExpiration_date(String expiration_date) {
         this.expiration_date = expiration_date;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -1,5 +1,8 @@
 package com.academy.controlacademy.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import java.util.Set;
 
@@ -28,6 +31,7 @@ public class Exercise {
   @Column(nullable = false)
   private Integer rest_time;
 
+  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
   @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(
       name = "exercise_muscles",

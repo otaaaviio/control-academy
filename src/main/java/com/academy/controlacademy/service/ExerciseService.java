@@ -1,63 +1,73 @@
 package com.academy.controlacademy.service;
 
+import com.academy.controlacademy.dto.ExerciseDto;
 import com.academy.controlacademy.entity.Exercise;
-import com.academy.controlacademy.entity.Muscle;
-import com.academy.controlacademy.entity.Training;
 import com.academy.controlacademy.repository.ExerciseRepository;
-import com.academy.controlacademy.repository.MuscleRepository;
 import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Service
-public class ExerciseService extends BaseService<Exercise> {
+public class ExerciseService {
   private final ExerciseRepository exerciseRepository;
-  private final MuscleRepository muscleRepository;
 
   @Autowired
-  public ExerciseService(ExerciseRepository repository, ExerciseRepository exerciseRepository, MuscleRepository muscleRepository) {
-    super(repository);
-    this.exerciseRepository = exerciseRepository;
-      this.muscleRepository = muscleRepository;
+  public ExerciseService(ExerciseRepository repository) {
+    this.exerciseRepository = repository;
   }
 
-  private void verifyMuscles(Exercise exercise, Set<Long> muscleIds) {
-    Set<Muscle> muscles = new HashSet<>();
-    for (Long muscleId : muscleIds) {
-      Muscle muscle =
-              muscleRepository
-                      .findById(muscleId)
-                      .orElseThrow(
-                              () ->
-                                      new EntityNotFoundException(
-                                              STR."Não foi possível encontrar o músculo com o ID: \{muscleId}"));
-      muscles.add(muscle);
+  private void setExercise(Exercise exercise, ExerciseDto request) {
+    exercise.setMax_reps(request.max_reps());
+    exercise.setMin_reps(request.min_reps());
+    exercise.setNum_series(request.num_series());
+    exercise.setRest_time(request.rest_time());
+    exercise.setWeight(request.weight());
+    exercise.setMuscles(request.muscles());
+  }
+
+  public ResponseEntity<Exercise> create(ExerciseDto request) {
+    Exercise exercise = new Exercise();
+
+    setExercise(exercise, request);
+
+    return ResponseEntity.status(HttpStatus.CREATED).body(exerciseRepository.save(exercise));
+  }
+
+  public ResponseEntity<Exercise> findById(Long id) {
+    Optional<Exercise> record = exerciseRepository.findById(id);
+    return record
+        .map(e -> ResponseEntity.status(HttpStatus.OK).body(e))
+        .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
+  }
+
+  public ResponseEntity<List<Exercise>> index() {
+    return ResponseEntity.status(HttpStatus.OK)
+        .body(exerciseRepository.findAll(Sort.by(Sort.Direction.ASC, "id")));
+  }
+
+  public ResponseEntity<Exercise> update(ExerciseDto request, Long id) {
+    Exercise exercise =
+        exerciseRepository
+            .findById(id)
+            .orElseThrow(
+                () -> new EntityNotFoundException(STR."Unable to find exercise with ID: \{id}"));
+
+    setExercise(exercise, request);
+
+    return ResponseEntity.status(HttpStatus.OK).body(exerciseRepository.save(exercise));
+  }
+
+  public ResponseEntity<Object> delete(Long id) {
+    Optional<Exercise> record = exerciseRepository.findById(id);
+    if (record.isEmpty()) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
-
-    exercise.setMuscles(muscles);
-  }
-
-  public Exercise createExercise(Exercise exercise, Set<Long> muscleIds) {
-    verifyMuscles(exercise, muscleIds);
-
-    return exerciseRepository.save(exercise);
-  }
-
-  public Exercise updateExercise(Long exerciseId, Exercise exerciseDetails, Set<Long> muscleIds) {
-    Exercise exercise = exerciseRepository.findById(exerciseId)
-            .orElseThrow(() -> new EntityNotFoundException(STR."Não foi possível encontrar o exercício com o ID: \{exerciseId}"));
-
-    verifyMuscles(exercise, muscleIds);
-
-    exercise.setNum_series(exerciseDetails.getNum_series());
-    exercise.setMin_reps(exerciseDetails.getMin_reps());
-    exercise.setMax_reps(exerciseDetails.getMax_reps());
-    exercise.setWeight(exerciseDetails.getWeight());
-    exercise.setRest_time(exerciseDetails.getRest_time());
-
-    return exerciseRepository.save(exercise);
+    exerciseRepository.deleteById(id);
+    return ResponseEntity.status(HttpStatus.OK).body("Record deleted successfully");
   }
 }

@@ -1,5 +1,8 @@
 package com.academy.controlacademy.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import java.util.Set;
 
@@ -13,14 +16,14 @@ public class Muscle {
   @Column(nullable = false)
   private String name;
 
+  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
   @ManyToMany(mappedBy = "muscles")
   private Set<Exercise> exercises;
 
   public Muscle() {}
 
-  public Muscle(String name, Set<Exercise> exercises) {
+  public Muscle(String name) {
     this.name = name;
-    this.exercises = exercises;
   }
 
   public Long getId() {

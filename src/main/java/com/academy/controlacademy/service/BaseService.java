@@ -1,32 +1,56 @@
 package com.academy.controlacademy.service;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-public class BaseService<T> {
-    private final JpaRepository<T, Long> repository;
+public abstract class BaseService<T, D> {
+  private final JpaRepository<T, Long> repository;
 
-    public BaseService(JpaRepository<T, Long> repository) {
-        this.repository = repository;
+  public BaseService(JpaRepository<T, Long> repository) {
+    this.repository = repository;
+  }
+
+  public ResponseEntity<T> create(D dto) {
+    var entity = newEntityInstance();
+    BeanUtils.copyProperties(dto, entity);
+    return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(entity));
+  }
+
+  public ResponseEntity<T> findById(Long id) {
+    Optional<T> record = repository.findById(id);
+    return record
+        .map(t -> ResponseEntity.status(HttpStatus.OK).body(t))
+        .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
+  }
+
+  public ResponseEntity<List<T>> index() {
+    return ResponseEntity.status(HttpStatus.OK)
+        .body(repository.findAll(Sort.by(Sort.Direction.ASC, "id")));
+  }
+
+  public ResponseEntity<T> update(D dto, Long id) {
+    var originalEntity = repository.findById(id);
+    if (originalEntity.isEmpty()) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
-    public T findById(Long id) {
-        return repository.findById(id).orElse(null);
-    }
+    var entity = originalEntity.get();
+    BeanUtils.copyProperties(dto, entity);
+    return ResponseEntity.status(HttpStatus.OK).body(repository.save(entity));
+  }
 
-    public List<T> index() {
-        return repository.findAll();
+  public ResponseEntity<Object> delete(Long id) {
+    Optional<T> record = repository.findById(id);
+    if (record.isEmpty()) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
+    return ResponseEntity.status(HttpStatus.OK).body("Record deleted successfully");
+  }
 
-    public T create(T record) {
-        return repository.save(record);
-    }
-
-    public T update(T record) {
-        return repository.save(record);
-    }
-
-    public void delete(Long id) {
-        repository.deleteById(id);
-    }
+  protected abstract T newEntityInstance();
 }

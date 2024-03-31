@@ -7,9 +7,7 @@ import jakarta.persistence.*;
 public class PlanType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
+    private Long id;    @Column(nullable = false, unique = true)
     private String name;
 
     public PlanType() {}

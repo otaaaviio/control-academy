@@ -1,47 +1,45 @@
 package com.academy.controlacademy.controller;
 
+import com.academy.controlacademy.dto.MuscleDto;
 import com.academy.controlacademy.entity.Muscle;
 import com.academy.controlacademy.service.MuscleService;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
+import jakarta.validation.Valid;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/muscles")
 public class MuscleController {
-    private final MuscleService muscleService;
+  private final MuscleService muscleService;
 
-    public MuscleController(MuscleService muscleService) {
-        this.muscleService = muscleService;
-    }
+  public MuscleController(MuscleService muscleService) {
+    this.muscleService = muscleService;
+  }
 
-    @GetMapping("/{id}")
-    public Muscle findMuscleById(@PathVariable Long id) {
-        return muscleService.findById(id);
-    }
+  @PostMapping
+  public ResponseEntity<Muscle> createMuscle(@RequestBody @Valid MuscleDto request) {
+    return muscleService.create(request);
+  }
 
-    @GetMapping
-    public List<Muscle> indexMuscle() {
-        return muscleService.index();
-    }
+  @GetMapping("/{id}")
+  public ResponseEntity<Muscle> findMuscle(@PathVariable Long id) {
+    return muscleService.findById(id);
+  }
 
-    @PostMapping
-    public Muscle createMuscle(@RequestBody Muscle record) {
-        return muscleService.create(record);
-    }
+  @GetMapping
+  public ResponseEntity<List<Muscle>> indexMuscle() {
+    return muscleService.index();
+  }
 
-    @PutMapping("/{id}")
-    public Muscle updateMuscle(@PathVariable Long id, @RequestBody Muscle record) {
-        if (muscleService.findById(id) == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Muscle not found");
-        }
-        return muscleService.update(record);
-    }
+  @PutMapping("/{id}")
+  public ResponseEntity<Muscle> updateMuscle(
+      @RequestBody @Valid MuscleDto request, @PathVariable Long id) {
+    return muscleService.update(request, id);
+  }
 
-    @DeleteMapping("/{id}")
-    public void deleteMuscle(@PathVariable Long id) {
-            muscleService.delete(id);
-    }
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Object> deleteMuscle(@PathVariable Long id) {
+    return muscleService.delete(id);
+  }
 }

@@ -1,14 +1,13 @@
 package com.academy.controlacademy.controller;
 
+import com.academy.controlacademy.dto.TrainingDto;
 import com.academy.controlacademy.entity.Training;
 import com.academy.controlacademy.service.TrainingService;
+import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/trainings")
@@ -20,31 +19,29 @@ public class TrainingController {
     this.trainingService = trainingService;
   }
 
+  @PostMapping
+  public ResponseEntity<Training> createTraining(@RequestBody @Valid TrainingDto request) {
+    return trainingService.create(request);
+  }
+
   @GetMapping("/{id}")
-  public Training findTrainingById(@PathVariable Long id) {
+  public ResponseEntity<Training> findTraining(@PathVariable Long id) {
     return trainingService.findById(id);
   }
 
   @GetMapping
-  public List<Training> indexTraining() {
+  public ResponseEntity<List<Training>> indexTraining() {
     return trainingService.index();
   }
 
-  @PostMapping
-  public Training createTraining(@RequestBody Training record, @RequestParam Set<Long> exerciseIds) {
-    return trainingService.createTraining(record, exerciseIds);
-  }
-
   @PutMapping("/{id}")
-  public Training updateTraining(@PathVariable Long id, @RequestBody Training record, @RequestParam Set<Long> exerciseIds) {
-    if (trainingService.findById(id) == null) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Training not found");
-    }
-    return trainingService.updateTraining(id, record, exerciseIds);
+  public ResponseEntity<Training> updateTraining(
+      @PathVariable Long id, @RequestBody @Valid TrainingDto request) {
+    return trainingService.update(id, request);
   }
 
   @DeleteMapping("/{id}")
-  public void deleteTraining(@PathVariable Long id) {
-    trainingService.delete(id);
+  public ResponseEntity<Object> deleteTraining(@PathVariable Long id) {
+    return trainingService.delete(id);
   }
 }
