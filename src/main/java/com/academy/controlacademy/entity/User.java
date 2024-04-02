@@ -38,6 +38,10 @@ public class User {
     return (this == o) || (o instanceof User user && Objects.equals(id, user.id));
   }
 
+  public Long getId() {
+    return id;
+  }
+
   public String getName() {
     return name;
   }
@@ -46,11 +50,11 @@ public class User {
     this.name = name;
   }
 
-  public String getCPF() {
+  public String getCpf() {
     return cpf;
   }
 
-  public void setCPF(String cpf) {
+  public void setCpf(String cpf) {
     this.cpf = cpf;
   }
 
