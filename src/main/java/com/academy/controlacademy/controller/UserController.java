@@ -29,6 +29,16 @@ public class UserController {
     return userService.findById(id);
   }
 
+  @GetMapping("/cpf")
+  public ResponseEntity<User> findUserByCpf(@RequestParam String cpf) {
+    return userService.findByCpf(cpf);
+  }
+
+  @GetMapping("/name")
+  public ResponseEntity<User> findUserByName(@RequestParam String name) {
+    return userService.findByName(name);
+  }
+
   @GetMapping
   public ResponseEntity<List<User>> indexUser() {
     return userService.index();

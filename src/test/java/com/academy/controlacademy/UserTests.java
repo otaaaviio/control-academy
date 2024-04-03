@@ -50,6 +50,24 @@ class UserTests {
   }
 
   @Test
+  void testFindUserByName() throws Exception {
+    User user = userFactory.entityFactory();
+
+    mockMvc
+            .perform(MockMvcRequestBuilders.get("/users/name").param("name", user.getName()))
+            .andExpect(status().isOk());
+  }
+
+  @Test
+  void testFindUserByCpf() throws Exception {
+    User user = userFactory.entityFactory();
+
+    mockMvc
+            .perform(MockMvcRequestBuilders.get("/users/cpf").param("cpf", user.getCpf()))
+            .andExpect(status().isOk());
+  }
+
+  @Test
   void testIndexUser() throws Exception {
     userFactory.entityFactory();
     userFactory.entityFactory();
