@@ -17,7 +17,7 @@ public class UserFactory {
         this.userRepository = userRepository;
     }
 
-    public UserDto userFactory() {
+    public UserDto dtoFactory() {
     return new UserDto(
         faker.name().fullName(),
         faker.regexify("[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}-[0-9]{2}"),
@@ -27,7 +27,7 @@ public class UserFactory {
 
   public User entityFactory() {
     User user = new User();
-    BeanUtils.copyProperties(userFactory(), user);
+    BeanUtils.copyProperties(dtoFactory(), user);
     userRepository.save(user);
     return user;
   }

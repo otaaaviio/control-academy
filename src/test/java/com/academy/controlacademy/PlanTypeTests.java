@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.academy.controlacademy.dto.PlanTypeDto;
 import com.academy.controlacademy.entity.PlanType;
+import com.academy.controlacademy.factory.PlanTypeFactory;
 import com.academy.controlacademy.repository.PlanTypeRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,8 +20,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @AutoConfigureMockMvc
 class PlanTypeTests {
   @Autowired private MockMvc mockMvc;
-
-  @Autowired private PlanTypeRepository planTypeRepository;
+  @Autowired private PlanTypeFactory planTypeFactory;
   private ObjectMapper objectMapper;
 
   @BeforeEach
@@ -30,7 +30,7 @@ class PlanTypeTests {
 
   @Test
   void testCreatePlanType() throws Exception {
-    PlanTypeDto request = new PlanTypeDto("Premium");
+    PlanTypeDto request = planTypeFactory.dtoFactory();
 
     mockMvc
         .perform(
@@ -42,27 +42,29 @@ class PlanTypeTests {
 
   @Test
   void testFindPlanType() throws Exception {
-    PlanType planType = new PlanType("Gold");
-    planTypeRepository.save(planType);
+    PlanType planType = planTypeFactory.entityFactory();
 
     mockMvc
-        .perform(MockMvcRequestBuilders.get(STR."/plan-types/\{planType.getId()}"))
+        .perform(MockMvcRequestBuilders.get("/plan-types/" + planType.getId()))
         .andExpect(status().isOk());
   }
 
   @Test
   void testIndexPlanType() throws Exception {
+    planTypeFactory.entityFactory();
+    planTypeFactory.entityFactory();
+
     mockMvc.perform(MockMvcRequestBuilders.get("/plan-types")).andExpect(status().isOk());
   }
 
   @Test
   void testUpdatePlanType() throws Exception {
-    PlanType planTypeOriginal = new PlanType("Silver");
-    planTypeRepository.save(planTypeOriginal);
-    PlanTypeDto request = new PlanTypeDto("updated plan type");
+    PlanType planTypeOriginal = planTypeFactory.entityFactory() ;
+    PlanTypeDto request = planTypeFactory.dtoFactory();
+
     mockMvc
         .perform(
-            MockMvcRequestBuilders.put(STR."/plan-types/\{planTypeOriginal.getId()}")
+            MockMvcRequestBuilders.put("/plan-types/" + planTypeOriginal.getId())
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk());
@@ -70,10 +72,10 @@ class PlanTypeTests {
 
   @Test
   void testDeletePlanType() throws Exception {
-    PlanType planType = new PlanType("Bronze");
-    planTypeRepository.save(planType);
+    PlanType planType = planTypeFactory.entityFactory();
+
     mockMvc
-        .perform(MockMvcRequestBuilders.delete(STR."/plan-types/\{planType.getId()}"))
+        .perform(MockMvcRequestBuilders.delete("/plan-types/" + planType.getId()))
         .andExpect(status().isOk());
   }
 }

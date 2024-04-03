@@ -47,7 +47,7 @@ public class TrainingService {
 
   public ResponseEntity<Training> update(Long id, TrainingDto request) {
     Training training = trainingRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException(STR."Unable to find training with id: \{id}"));
+            .orElseThrow(() -> new EntityNotFoundException("Unable to find training with id:" + id));
 
     training.setUser(request.user());
     training.setStart_date(request.start_date());

@@ -78,7 +78,7 @@ public class Plan {
         return credit_card;
     }
 
-    public void setCredit_card_id(CreditCard credit_card) {
+    public void setCredit_card(CreditCard credit_card) {
         this.credit_card = credit_card;
     }
 }

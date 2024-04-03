@@ -4,7 +4,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.academy.controlacademy.dto.CreditCardDto;
 import com.academy.controlacademy.entity.CreditCard;
-import com.academy.controlacademy.repository.CreditCardRepository;
+import com.academy.controlacademy.factory.CreditCardFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 class CreditCardTests {
   @Autowired private MockMvc mockMvc;
 
-  @Autowired private CreditCardRepository creditCardRepository;
+  @Autowired private CreditCardFactory creditCardFactory;
   private ObjectMapper objectMapper;
 
   @BeforeEach
@@ -30,7 +30,7 @@ class CreditCardTests {
 
   @Test
   void testCreateCreditCard() throws Exception {
-    CreditCardDto request = new CreditCardDto("1234567890123456", "123", "12/2022", "TEST USER");
+    CreditCardDto request = creditCardFactory.dtoFactory();
 
     mockMvc
         .perform(
@@ -42,8 +42,8 @@ class CreditCardTests {
 
   @Test
   void testFindCreditCard() throws Exception {
-    CreditCard creditCard = new CreditCard("1111222233334444", "123", "12/2022", "TEST USER");
-    creditCardRepository.save(creditCard);
+    CreditCard creditCard = creditCardFactory.entityFactory();
+
     mockMvc
         .perform(MockMvcRequestBuilders.get("/credit-cards/" + creditCard.getId()))
         .andExpect(status().isOk());
@@ -51,14 +51,17 @@ class CreditCardTests {
 
   @Test
   void testIndexCreditCard() throws Exception {
+    creditCardFactory.entityFactory();
+    creditCardFactory.entityFactory();
+
     mockMvc.perform(MockMvcRequestBuilders.get("/credit-cards")).andExpect(status().isOk());
   }
 
   @Test
   void testUpdateCreditCard() throws Exception {
-    CreditCard creditCard = new CreditCard("0000111122223333", "123", "12/2022", "TEST USER");
-    creditCardRepository.save(creditCard);
-    CreditCardDto request = new CreditCardDto("1111111111111111", "123", "12/2022", "TEST USER");
+    CreditCard creditCard = creditCardFactory.entityFactory();
+    CreditCardDto request = creditCardFactory.dtoFactory();
+
     mockMvc
         .perform(
             MockMvcRequestBuilders.put("/credit-cards/" + creditCard.getId())
@@ -69,8 +72,8 @@ class CreditCardTests {
 
   @Test
   void testDeleteCreditCard() throws Exception {
-    CreditCard creditCard = new CreditCard("1111222933334444", "123", "12/2022", "TEST USER");
-    creditCardRepository.save(creditCard);
+    CreditCard creditCard = creditCardFactory.entityFactory();
+
     mockMvc
         .perform(MockMvcRequestBuilders.delete("/credit-cards/" + creditCard.getId()))
         .andExpect(status().isOk());

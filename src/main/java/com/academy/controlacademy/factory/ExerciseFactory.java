@@ -24,8 +24,10 @@ public class ExerciseFactory {
 
   public ExerciseDto dtoFactory() {
     Set<Muscle> muscles = new HashSet<>();
-    muscles.add(muscleFactory.entityFactory());
-    muscles.add(muscleFactory.entityFactory());
+    Muscle muscle1 = muscleFactory.entityFactory();
+    Muscle muscle2 = muscleFactory.entityFactory();
+    muscles.add(muscle1);
+    muscles.add(muscle2);
 
     return new ExerciseDto(
         faker.letterify("????????????"),

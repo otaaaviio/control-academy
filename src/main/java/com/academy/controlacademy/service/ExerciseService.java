@@ -55,7 +55,7 @@ public class ExerciseService {
         exerciseRepository
             .findById(id)
             .orElseThrow(
-                () -> new EntityNotFoundException(STR."Unable to find exercise with ID: \{id}"));
+                () -> new EntityNotFoundException("Unable to find exercise with ID: " + id));
 
     setExercise(exercise, request);
 

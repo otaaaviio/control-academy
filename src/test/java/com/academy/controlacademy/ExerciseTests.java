@@ -2,9 +2,9 @@ package com.academy.controlacademy;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.academy.controlacademy.dto.MuscleDto;
-import com.academy.controlacademy.entity.Muscle;
-import com.academy.controlacademy.factory.MuscleFactory;
+import com.academy.controlacademy.dto.ExerciseDto;
+import com.academy.controlacademy.entity.Exercise;
+import com.academy.controlacademy.factory.ExerciseFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,10 +17,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class MuscleTests {
+class ExerciseTests {
   @Autowired private MockMvc mockMvc;
 
-  @Autowired private MuscleFactory muscleFactory;
+  @Autowired private ExerciseFactory exerciseFactory;
   private ObjectMapper objectMapper;
 
   @BeforeEach
@@ -29,51 +29,53 @@ class MuscleTests {
   }
 
   @Test
-  void testCreateMuscle() throws Exception {
-    MuscleDto request = muscleFactory.dtoFactory();
+  void testCreateExercise() throws Exception {
+    ExerciseDto request = exerciseFactory.dtoFactory();
 
     mockMvc
         .perform(
-            MockMvcRequestBuilders.post("/muscles")
+            MockMvcRequestBuilders.post("/exercises")
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isCreated());
   }
 
   @Test
-  void testFindPlanType() throws Exception {
-    Muscle muscle = muscleFactory.entityFactory();
+  void testFindExercise() throws Exception {
+    Exercise exercise = exerciseFactory.entityFactory();
 
     mockMvc
-        .perform(MockMvcRequestBuilders.get("/muscles/" + muscle.getId()))
+        .perform(MockMvcRequestBuilders.get("/exercises/" + exercise.getId()))
         .andExpect(status().isOk());
   }
 
   @Test
-  void testIndexMuscle() throws Exception {
-    muscleFactory.entityFactory();
-    mockMvc.perform(MockMvcRequestBuilders.get("/muscles")).andExpect(status().isOk());
+  void testIndexExercise() throws Exception {
+    exerciseFactory.entityFactory();
+    exerciseFactory.entityFactory();
+
+    mockMvc.perform(MockMvcRequestBuilders.get("/exercises")).andExpect(status().isOk());
   }
 
   @Test
-  void testUpdateMuscle() throws Exception {
-    Muscle originalMuscle = muscleFactory.entityFactory();
-    MuscleDto updatedMuscle = muscleFactory.dtoFactory();
+  void testUpdateExercise() throws Exception {
+    Exercise originalExercise = exerciseFactory.entityFactory();
+    ExerciseDto request = exerciseFactory.dtoFactory();
 
     mockMvc
         .perform(
-            MockMvcRequestBuilders.put("/muscles/" + originalMuscle.getId())
-                .content(objectMapper.writeValueAsString(updatedMuscle))
+            MockMvcRequestBuilders.put("/exercises/" + originalExercise.getId())
+                .content(objectMapper.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk());
   }
 
   @Test
-  void testDeletePlanType() throws Exception {
-    Muscle record = muscleFactory.entityFactory();
+  void testDeleteExercise() throws Exception {
+    Exercise exercise = exerciseFactory.entityFactory();
 
     mockMvc
-        .perform(MockMvcRequestBuilders.delete("/muscles/" + record.getId()))
+        .perform(MockMvcRequestBuilders.delete("/exercises/" + exercise.getId()))
         .andExpect(status().isOk());
   }
 }
