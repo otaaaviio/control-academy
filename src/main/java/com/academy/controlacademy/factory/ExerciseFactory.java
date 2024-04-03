@@ -5,7 +5,6 @@ import com.academy.controlacademy.entity.Exercise;
 import com.academy.controlacademy.entity.Muscle;
 import com.academy.controlacademy.repository.ExerciseRepository;
 import com.github.javafaker.Faker;
-import java.util.HashSet;
 import java.util.Set;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -24,10 +23,6 @@ public class ExerciseFactory {
   }
 
   public ExerciseDto dtoFactory() {
-    Set<Muscle> muscles = new HashSet<>();
-    muscles.add(muscleFactory.entityFactory());
-    muscles.add(muscleFactory.entityFactory());
-
     return new ExerciseDto(
         faker.letterify("????????????"),
         4,
@@ -35,7 +30,7 @@ public class ExerciseFactory {
         12,
         faker.number().numberBetween(20, 100),
         90,
-        muscles);
+        Set.of(muscleFactory.entityFactory()));
   }
 
   @Transactional

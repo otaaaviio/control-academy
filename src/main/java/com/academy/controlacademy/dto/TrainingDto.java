@@ -9,4 +9,4 @@ import java.util.Date;
 import java.util.Set;
 
 public record TrainingDto(
-    @NotNull User user, @NotNull Date start_date, @NotBlank Set<Exercise> exercises) {}
+    @NotNull User user, @NotNull Date start_date, @NotNull Set<Exercise> exercises) {}

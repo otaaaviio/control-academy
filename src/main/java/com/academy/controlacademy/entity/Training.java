@@ -18,7 +18,7 @@ public class Training {
   @Temporal(TemporalType.DATE)
   private Date start_date;
 
-  @ManyToMany(cascade = CascadeType.ALL)
+  @ManyToMany
   @JoinTable(
       name = "training_exercises",
       joinColumns = @JoinColumn(name = "training_id"),

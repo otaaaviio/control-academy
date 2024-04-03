@@ -32,7 +32,7 @@ public class Exercise {
   private Integer rest_time;
 
   @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-  @ManyToMany(cascade = CascadeType.ALL)
+  @ManyToMany
   @JoinTable(
       name = "exercise_muscles",
       joinColumns = @JoinColumn(name = "exercise_id"),
