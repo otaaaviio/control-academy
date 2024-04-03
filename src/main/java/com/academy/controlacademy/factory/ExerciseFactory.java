@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class ExerciseFactory {
@@ -24,10 +25,8 @@ public class ExerciseFactory {
 
   public ExerciseDto dtoFactory() {
     Set<Muscle> muscles = new HashSet<>();
-    Muscle muscle1 = muscleFactory.entityFactory();
-    Muscle muscle2 = muscleFactory.entityFactory();
-    muscles.add(muscle1);
-    muscles.add(muscle2);
+    muscles.add(muscleFactory.entityFactory());
+    muscles.add(muscleFactory.entityFactory());
 
     return new ExerciseDto(
         faker.letterify("????????????"),
@@ -39,6 +38,7 @@ public class ExerciseFactory {
         muscles);
   }
 
+  @Transactional
   public Exercise entityFactory() {
     Exercise exercise = new Exercise();
     BeanUtils.copyProperties(dtoFactory(), exercise);

@@ -6,6 +6,7 @@ import com.academy.controlacademy.repository.MuscleRepository;
 import com.github.javafaker.Faker;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class MuscleFactory {
@@ -21,6 +22,7 @@ public class MuscleFactory {
       return new MuscleDto(faker.letterify("????????????"));
   }
 
+  @Transactional
   public Muscle entityFactory() {
     Muscle muscle = new Muscle();
     BeanUtils.copyProperties(dtoFactory(), muscle);

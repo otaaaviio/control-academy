@@ -22,6 +22,7 @@ public class ExerciseService {
   }
 
   private void setExercise(Exercise exercise, ExerciseDto request) {
+    exercise.setName(request.name());
     exercise.setMax_reps(request.max_reps());
     exercise.setMin_reps(request.min_reps());
     exercise.setNum_series(request.num_series());

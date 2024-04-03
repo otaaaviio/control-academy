@@ -41,7 +41,7 @@ class MuscleTests {
   }
 
   @Test
-  void testFindPlanType() throws Exception {
+  void testFindMuscle() throws Exception {
     Muscle muscle = muscleFactory.entityFactory();
 
     mockMvc
@@ -69,7 +69,7 @@ class MuscleTests {
   }
 
   @Test
-  void testDeletePlanType() throws Exception {
+  void testDeleteMuscle() throws Exception {
     Muscle record = muscleFactory.entityFactory();
 
     mockMvc

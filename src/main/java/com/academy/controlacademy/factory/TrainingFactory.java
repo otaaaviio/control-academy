@@ -7,6 +7,7 @@ import com.academy.controlacademy.repository.TrainingRepository;
 import com.github.javafaker.Faker;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,18 +26,14 @@ public class TrainingFactory {
     }
 
     public TrainingDto dtoFactory() {
-        Set<Exercise> exercises = new HashSet<>();
-        for (int i = 0; i < 3; i++) {
-            exercises.add(exerciseFactory.entityFactory());
-        }
-
         return new TrainingDto(
                 userFactory.entityFactory(),
                 faker.date().birthday(),
-                exercises
+                Set.of(exerciseFactory.entityFactory())
         );
     }
 
+    @Transactional
     public Training entityFactory() {
         Training training = new Training();
         BeanUtils.copyProperties(dtoFactory(), training);
