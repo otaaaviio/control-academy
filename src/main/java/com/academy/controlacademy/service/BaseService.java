@@ -49,6 +49,7 @@ public abstract class BaseService<T, D> {
     if (record.isEmpty()) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
+    repository.delete(record.get());
     return ResponseEntity.status(HttpStatus.OK).body("Record deleted successfully");
   }
 
