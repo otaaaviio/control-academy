@@ -37,7 +37,7 @@ public class TrainingController {
   @PutMapping("/{id}")
   public ResponseEntity<Training> updateTraining(
       @PathVariable Long id, @RequestBody @Valid TrainingDto request) {
-    return trainingService.update(id, request);
+    return trainingService.update(request, id);
   }
 
   @DeleteMapping("/{id}")

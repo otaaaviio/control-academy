@@ -1,9 +1,9 @@
 package com.academy.controlacademy.entity;
 
 import jakarta.persistence.*;
-
 import java.util.Date;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -21,16 +21,25 @@ public class User {
   @Temporal(TemporalType.DATE)
   private Date birth_date;
 
-  @Column(nullable = false)
-  private Boolean is_instructor = false;
+  @Column(nullable = false, columnDefinition = "boolean default false")
+  private Boolean is_instructor;
+
+  @OneToMany(mappedBy = "user")
+  private Set<TrainingUser> trainingUsers;
 
   public User() {}
 
-  public User(String name, String cpf, Date birth_date, Boolean is_instructor) {
+  public User(
+      String name,
+      String cpf,
+      Date birth_date,
+      Boolean is_instructor,
+      Set<TrainingUser> trainingUsers) {
     this.name = name;
     this.cpf = cpf;
     this.birth_date = birth_date;
     this.is_instructor = is_instructor;
+    this.trainingUsers = trainingUsers;
   }
 
   @Override
@@ -72,5 +81,13 @@ public class User {
 
   public void setBirth_date(Date birth_date) {
     this.birth_date = birth_date;
+  }
+
+  public Set<TrainingUser> getTrainingUsers() {
+    return trainingUsers;
+  }
+
+  public void setTrainingUsers(Set<TrainingUser> trainingUsers) {
+    this.trainingUsers = trainingUsers;
   }
 }

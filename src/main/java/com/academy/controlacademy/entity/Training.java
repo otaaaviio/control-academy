@@ -1,7 +1,6 @@
 package com.academy.controlacademy.entity;
 
 import jakarta.persistence.*;
-import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -11,12 +10,11 @@ public class Training {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne
-  @JoinColumn(name = "user_id", nullable = false)
-  private User user;
+  @Column(nullable = false)
+  private String title;
 
-  @Temporal(TemporalType.DATE)
-  private Date start_date;
+  @OneToMany(mappedBy = "training")
+  private Set<TrainingUser> trainingUsers;
 
   @ManyToMany
   @JoinTable(
@@ -27,9 +25,9 @@ public class Training {
 
   public Training() {}
 
-  public Training(User user, Date start_date, Set<Exercise> exercises) {
-    this.user = user;
-    this.start_date = start_date;
+  public Training(String title, Set<TrainingUser> trainingUsers, Set<Exercise> exercises) {
+    this.title = title;
+    this.trainingUsers = trainingUsers;
     this.exercises = exercises;
   }
 
@@ -37,20 +35,20 @@ public class Training {
     return id;
   }
 
-  public User getUser() {
-    return user;
+  public Set<TrainingUser> getTrainingUsers() {
+    return trainingUsers;
   }
 
-  public void setUser(User user) {
-    this.user = user;
+  public void setTrainingUsers(Set<TrainingUser> trainingUsers) {
+    this.trainingUsers = trainingUsers;
   }
 
-  public Date getStart_date() {
-    return start_date;
+  public String getTitle() {
+    return title;
   }
 
-  public void setStart_date(Date start_date) {
-    this.start_date = start_date;
+  public void setTitle(String title) {
+    this.title = title;
   }
 
   public Set<Exercise> getExercises() {

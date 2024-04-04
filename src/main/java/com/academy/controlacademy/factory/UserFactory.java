@@ -7,22 +7,25 @@ import com.github.javafaker.Faker;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
+
 @Component
 public class UserFactory {
   Faker faker = new Faker();
 
   private final UserRepository userRepository;
 
-    public UserFactory(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+  public UserFactory(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
 
-    public UserDto dtoFactory() {
+  public UserDto dtoFactory() {
     return new UserDto(
         faker.name().fullName(),
         faker.regexify("[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}-[0-9]{2}"),
         faker.date().birthday(),
-        false);
+        faker.bool().bool(),
+            null);
   }
 
   public User entityFactory() {
