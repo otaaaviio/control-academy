@@ -9,6 +9,9 @@ import com.academy.controlacademy.factory.TrainingUserFactory;
 import com.academy.controlacademy.factory.UserFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +20,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
 @AutoConfigureMockMvc

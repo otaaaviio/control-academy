@@ -1,5 +1,6 @@
 package com.academy.controlacademy.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.Date;
 import java.util.Objects;
@@ -24,6 +25,7 @@ public class User {
   @Column(nullable = false, columnDefinition = "boolean default false")
   private Boolean is_instructor;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "user")
   private Set<TrainingUser> trainingUsers;
 

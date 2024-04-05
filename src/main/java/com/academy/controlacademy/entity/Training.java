@@ -1,5 +1,6 @@
 package com.academy.controlacademy.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.Set;
 
@@ -13,8 +14,10 @@ public class Training {
   @Column(nullable = false)
   private String title;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "training")
   private Set<TrainingUser> trainingUsers;
+
 
   @ManyToMany
   @JoinTable(

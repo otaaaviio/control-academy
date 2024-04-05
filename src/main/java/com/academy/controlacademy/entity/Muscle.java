@@ -1,13 +1,14 @@
 package com.academy.controlacademy.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
 @Table(name = "muscles")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Muscle {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,7 +17,7 @@ public class Muscle {
   @Column(nullable = false)
   private String name;
 
-  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+  @JsonIgnore
   @ManyToMany(mappedBy = "muscles")
   private Set<Exercise> exercises;
 

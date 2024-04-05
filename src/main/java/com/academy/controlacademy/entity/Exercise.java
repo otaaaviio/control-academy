@@ -1,13 +1,12 @@
 package com.academy.controlacademy.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
 @Table(name = "exercises")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Exercise {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +30,6 @@ public class Exercise {
   @Column(nullable = false)
   private Integer rest_time;
 
-  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
   @ManyToMany
   @JoinTable(
       name = "exercise_muscles",
@@ -39,6 +37,7 @@ public class Exercise {
       inverseJoinColumns = @JoinColumn(name = "muscle_id"))
   private Set<Muscle> muscles;
 
+  @JsonIgnore
   @ManyToMany(mappedBy = "exercises")
   private Set<Training> trainings;
 
