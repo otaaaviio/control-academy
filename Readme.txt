@@ -77,3 +77,12 @@ Trabalho 1:
     GitHub:
         O projeto está disponível no GitHub, no seguinte link:
         https://github.com/otaaaviio/control-academy
+
+    Considerações finais:
+        O projeto foi desenvolvido utilizando o Spring Boot, onde foi implementado todas as requisições do trabalho.
+        O projeto é simples e objetivo, não extrapolando o que foi pedido no trabalho, porém, é possivel adicionar mais
+        funcionalidades ao projeto, como melhoria nos testes, adição de retorno de endpoints com dto's. Como o objetivo
+        do trabalho é em relação a API, não foi feito uma interface gráfica para a utilização da API, porém, é possivel
+        utilizar o Postman para a realização de testes nos endpoints da API ou até mesmo os testes.
+        Além disso, um dos objetivos do trabalho é a Prograamação Orientada a Objetos, onde foi utilizado o conceito de
+        POO para a implementação do projeto.
