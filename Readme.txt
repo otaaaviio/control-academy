@@ -1,88 +1,85 @@
-Trabalho 1:
+# Control Academy
 
-    Estrutura do projeto:
-        Utilizei o padrão de projeto "Spring Boot", com as pastas: controller, dto, entity, factory, repository, service e
-        tests.
+## Project Structure
 
-    Dependencias:
-        Utilizei alguns plugins a mais do que o Spring Boot para implementar todas requisições do trabalho.
+This project follows the Spring Boot design pattern, with the following directories:
 
-    Banco de dados:
-        Utilizei o PostgreSQL como banco de dados, onde a conexão é feita através do arquivo "application.properties",
-        esse foi criado o Docker para facil execução do projeto, a criação das tabelas é feita através do hibernate.
-        O banco contém todas as tabelas necessárias para guardar os dados especificados no trabalho, incluindo os não
-        obrigatórios. Também utilizei o banco de dados H2 para a realização dos testes, para fim de não alterar os dados
-        do banco de dados principal.
+- **controller**
+- **dto**
+- **entity**
+- **factory**
+- **repository**
+- **service**
+- **tests**
 
-    Tabelas do banco de dados:
-        - credit_cards
-        - exercise_muscles
-        - exercise_weight_history
-        - exercises
-        - muscles
-        - plan_types
-        - plans
-        - training_exercises
-        - training_users
-        - trainings
-        - users
-    Foi utilizado a terceira forma normal para a modelagem do banco de dados.
+## Dependencies
 
-    Tests:
-        Contém testes para todos controller e todos end-points, os testes são realizados utilizando o banco de dados H2,
-        onde é feito a criação de objetos falsos para a realização dos testes, os testes são realizados utilizando o
-        JUnit e o Mockito.
+In addition to the standard Spring Boot dependencies, a few additional plugins were used to handle all the required requests for the project.
 
-    Entity:
-        Contém as classes que representam as entidades do banco de dados, onde cada classe representa uma tabela do banco
-        de dados, as classes contém os atributos necessários para a representação dos dados, além de getters e setters.
+## Database
 
-    Dto:
-        Contém as classes que representam os objetos de transferência de dados, onde cada classe representa um objeto que
-        será utilizado para a transferência de dados para a API, as classes contém os atributos necessários
-        para a representação dos dados, além de getters e setters, além de validações para os dados de entrada.
+- **PostgreSQL**: The primary database, connected via `application.properties`. A Docker setup is provided for easy execution of the project. Hibernate is used for table creation.
+- **H2 Database**: Used for testing to prevent modifications to the primary database.
 
-    Repository:
-        Contém as interfaces que estendem a interface "JpaRepository" do Spring Data JPA, onde cada interface representa
-        uma tabela do banco de dados, as interfaces contém métodos para a realização de operações no banco de dados,
-        como inserção, atualização, remoção e busca de dados. Também contém métodos para a busca de dados específicos.
+### Database Tables
 
-    Service:
-        Contém as classes que implementam a lógica de negócio, onde cada classe representa uma tabela do banco de dados,
-        as classes contém métodos para a realização de operações no banco de dados, como inserção, atualização, remoção
-        e busca de dados. Os services utilizam os repositories para a realização das operações no banco de dados.
-        Existe uma classe "BaseService" que contém métodos genéricos para a realização de operações no banco de dados,
-        alguns services estendem essa classe para a utilização dos métodos.
+- `credit_cards`
+- `exercise_muscles`
+- `exercise_weight_history`
+- `exercises`
+- `muscles`
+- `plan_types`
+- `plans`
+- `training_exercises`
+- `training_users`
+- `trainings`
+- `users`
 
-    Controller:
-        Contém as classes que implementam os endpoints da API, onde cada classe representa um endpoint, as classes contém
-        métodos para a realização de operações no banco de dados, como inserção, atualização, remoção e busca de dados.
-        Os controllers utilizam os services para a realização das operações no banco de dados.
+The database schema is modeled using the Third Normal Form (3NF).
 
-    Factory:
-        Contém as classes que implementam a criação de objetos, contém métodos para criação de dto e entity, utilizando o
-        plugin Faker. São utilizados nos testes para criação de objetos falsos e unicos.
+## Tests
 
-    Padrão de código:
-        Utilizei o padrão de código "Google Java Style", onde o código é formatado de acordo com o padrão de código
-        definido pelo Google, para a formatação do código utilizei o plugin "google-java-format" do IntelliJ IDEA.
-        Além disso, defini como padrão a linguagem inglesa para a escrita do código(classes, métodos, variáveis, etc).
+The project includes tests for all controllers and endpoints. These tests are performed using the H2 database, where mock objects are created. JUnit and Mockito are used for testing.
 
-    Execução:
-        Para executar o projeto, basta instalar as dependencias do Maven, dessa maneira já é possivel executar os testes,
-        para executar o projeto basta criar um banco de dados e configurar o arquivo "application.properties" com as
-        informações do banco de dados, após isso basta executar a classe "Application.java". É possivel utilizar o Postman
-        para realização de testes nos endpoints da API.
+## Entity
 
-    GitHub:
-        O projeto está disponível no GitHub, no seguinte link:
-        https://github.com/otaaaviio/control-academy
+Contains classes representing the database entities. Each class corresponds to a database table and includes necessary attributes, along with getters and setters.
 
-    Considerações finais:
-        O projeto foi desenvolvido utilizando o Spring Boot, onde foi implementado todas as requisições do trabalho.
-        O projeto é simples e objetivo, não extrapolando o que foi pedido no trabalho, porém, é possivel adicionar mais
-        funcionalidades ao projeto, como melhoria nos testes, adição de retorno de endpoints com dto's. Como o objetivo
-        do trabalho é em relação a API, não foi feito uma interface gráfica para a utilização da API, porém, é possivel
-        utilizar o Postman para a realização de testes nos endpoints da API ou até mesmo os testes.
-        Além disso, um dos objetivos do trabalho é a Prograamação Orientada a Objetos, onde foi utilizado o conceito de
-        POO para a implementação do projeto.
+## DTO
+
+Contains classes representing Data Transfer Objects. Each class represents an object used for data transfer to the API, including necessary attributes, getters, setters, and input data validations.
+
+## Repository
+
+Contains interfaces extending the `JpaRepository` from Spring Data JPA. Each interface represents a database table and includes methods for performing database operations like insert, update, delete, and data retrieval. Specific data retrieval methods are also included.
+
+## Service
+
+Contains classes implementing business logic. Each class corresponds to a database table and includes methods for performing database operations like insert, update, delete, and data retrieval. Services use repositories for database operations. A `BaseService` class provides generic database operation methods, extended by some services.
+
+## Controller
+
+Contains classes implementing the API endpoints. Each class represents an endpoint and includes methods for performing database operations like insert, update, delete, and data retrieval. Controllers use services for database operations.
+
+## Factory
+
+Contains classes implementing object creation, including methods for creating DTOs and entities using the Faker plugin. These are used in tests for creating unique mock objects.
+
+## Code Style
+
+The project follows the Google Java Style code format, using the `google-java-format` plugin in IntelliJ IDEA. English is used as the standard language for code (classes, methods, variables, etc.).
+
+## Execution
+
+To run the project:
+
+1. Install Maven dependencies.
+2. Configure the `application.properties` file with your database information.
+3. Create a database.
+4. Execute the `Application.java` class.
+
+You can use Postman to test the API endpoints.
+
+## Final Considerations
+
+The project was developed using Spring Boot. It is straightforward and concise, with potential for additional functionalities such as improved tests and endpoint returns with DTOs. Since the focus of the project is the API, no graphical interface was implemented, but Postman can be used for testing the API endpoints. Additionally, Object-Oriented Programming (OOP) and SOLID principles were utilized in the project implementation.
